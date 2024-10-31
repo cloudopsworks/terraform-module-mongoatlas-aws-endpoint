@@ -5,7 +5,7 @@
 #
 
 locals {
-  sglist = try(var.vpc.security_group_ids, [])
+  sglist = try(var.settings.security_group_ids, [])
 
 }
 
@@ -40,6 +40,7 @@ resource "aws_security_group_rule" "default_ingress" {
   protocol          = "TCP"
   from_port         = try(var.settings.port, 27017)
   to_port           = try(var.settings.port, 27017)
+  cidr_blocks = concat(var.settings.vpc_cidr_blocks, [var.vpc.vpc_cidr_block])
 }
 
 resource "aws_vpc_endpoint" "this" {
@@ -51,7 +52,7 @@ resource "aws_vpc_endpoint" "this" {
 }
 
 resource "mongodbatlas_privatelink_endpoint_service" "this" {
-  project_id          = data.mongodbatlas_project.this.project_id
+  project_id          = mongodbatlas_privatelink_endpoint.this.project_id
   private_link_id     = mongodbatlas_privatelink_endpoint.this.private_link_id
   endpoint_service_id = aws_vpc_endpoint.this.id
   provider_name       = "AWS"
