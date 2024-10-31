@@ -40,7 +40,7 @@ resource "aws_security_group_rule" "default_ingress" {
   protocol          = "TCP"
   from_port         = try(var.settings.port, 27017)
   to_port           = try(var.settings.port, 27017)
-  cidr_blocks = concat(var.settings.vpc_cidr_blocks, [var.vpc.vpc_cidr_block])
+  cidr_blocks       = concat(var.settings.vpc_cidr_blocks, [var.vpc.vpc_cidr_block])
 }
 
 resource "aws_vpc_endpoint" "this" {
