@@ -20,15 +20,3 @@ variable "atlas_container_id" {
   description = "The ID of the Atlas container"
   type        = string
 }
-
-variable "settings" {
-  description = "Settings for the module"
-  type        = any
-  default     = {}
-}
-
-variable "vpc" {
-  description = "The VPC where the cluster will be created"
-  type        = any
-  default     = {}
-}
